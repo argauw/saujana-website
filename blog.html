@@ -254,6 +254,47 @@
         .footer-nav a:hover { color: var(--red); }
         .footer-copy { width: 100%; text-align: center; font-size: 0.75rem; color: #555; margin-top: 16px; }
 
+        /* Language Toggle */
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            margin: 0 auto 32px;
+        }
+        .lang-toggle span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.5);
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .lang-toggle span.active { color: #fff; }
+        .lang-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .lang-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--red);
+            transition: transform 0.3s;
+        }
+        .lang-switch.en::after { transform: translateX(22px); }
+        [data-lang="en"] { display: none; }
+        body.lang-en [data-lang="en"] { display: block; }
+        body.lang-en [data-lang="id"] { display: none; }
+
         /* Reveal */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -302,62 +343,122 @@
             <div class="article-hero-img reveal">
                 <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/8L2CvVVM5sCtqZxL9Izo/media/67a5ab9b69aecb1ef4187feb.png" alt="Brand Storytelling">
             </div>
-            <h1 class="reveal">Brand Storytelling: Rahasia Sukses Membangun Brand yang Berkesan</h1>
+            <h1 class="reveal" data-lang="id">Brand Storytelling: Rahasia Sukses Membangun Brand yang Berkesan</h1>
+            <h1 class="reveal" data-lang="en">Brand Storytelling: The Secret to Building a Memorable Brand</h1>
             <div class="article-meta reveal">
                 <span>February 2025</span>
                 <span>Branding</span>
+            </div>
+            <div class="lang-toggle reveal">
+                <span class="lang-label active" data-l="id">ID</span>
+                <div class="lang-switch" id="langSwitch"></div>
+                <span class="lang-label" data-l="en">EN</span>
             </div>
         </div>
     </section>
 
     <!-- Article Content -->
     <div class="article-content">
-        <h2 class="reveal">Apa yang dimaksud dengan Brand Storytelling?</h2>
-        <p class="reveal"><strong>Brand Storytelling</strong> adalah metode atau seni bagaimana kita menyampaikan nilai, visi, dan misi brand melalui narasi yang menarik dan emosional yang ditujukan kepada target pasar bisnis kita. Berbeda dengan iklan biasa yang hanya fokus pada penjualan, <strong>Brand Storytelling</strong> berfokus pada penceritaan yang menghubungkan audiens dengan brand secara emosional. Tujuannya adalah menciptakan pengalaman yang menginspirasi dan membekas dalam ingatan audiens.</p>
+        <!-- BAHASA INDONESIA -->
+        <div data-lang="id">
+            <h2 class="reveal">Apa yang dimaksud dengan Brand Storytelling?</h2>
+            <p class="reveal"><strong>Brand Storytelling</strong> adalah metode atau seni bagaimana kita menyampaikan nilai, visi, dan misi brand melalui narasi yang menarik dan emosional yang ditujukan kepada target pasar bisnis kita. Berbeda dengan iklan biasa yang hanya fokus pada penjualan, <strong>Brand Storytelling</strong> berfokus pada penceritaan yang menghubungkan audiens dengan brand secara emosional. Tujuannya adalah menciptakan pengalaman yang menginspirasi dan membekas dalam ingatan audiens.</p>
 
-        <p class="reveal">Contoh implementasi Brand Storytelling dari brand-brand ternama adalah:</p>
-        <ol class="reveal">
-            <li><strong>Nike &ndash; Just Do It:</strong> Nike menginspirasi audiens dengan cerita tentang motivasi dan pemberdayaan melalui kisah atlet yang mengatasi batasan diri.</li>
-            <li><strong>Dove &ndash; Real Beauty:</strong> Dove merayakan keindahan alami dan menantang standar kecantikan yang tidak realistis, menciptakan koneksi emosional yang kuat dengan audiens.</li>
-        </ol>
+            <p class="reveal">Contoh implementasi Brand Storytelling dari brand-brand ternama adalah:</p>
+            <ol class="reveal">
+                <li><strong>Nike &ndash; Just Do It:</strong> Nike menginspirasi audiens dengan cerita tentang motivasi dan pemberdayaan melalui kisah atlet yang mengatasi batasan diri.</li>
+                <li><strong>Dove &ndash; Real Beauty:</strong> Dove merayakan keindahan alami dan menantang standar kecantikan yang tidak realistis, menciptakan koneksi emosional yang kuat dengan audiens.</li>
+            </ol>
 
-        <p class="reveal">Dalam dunia pemasaran digital yang semakin kompetitif, Brand Storytelling menjadi strategi yang sangat efektif untuk membedakan brand Anda dari pesaing. Tapi, apa sebenarnya Brand Storytelling, dan bagaimana cara menggunakannya untuk memperkuat identitas brand Anda?</p>
+            <p class="reveal">Dalam dunia pemasaran digital yang semakin kompetitif, Brand Storytelling menjadi strategi yang sangat efektif untuk membedakan brand Anda dari pesaing. Tapi, apa sebenarnya Brand Storytelling, dan bagaimana cara menggunakannya untuk memperkuat identitas brand Anda?</p>
 
-        <p class="reveal">Blog ini akan mengupas tentang kekuatan cerita dalam menciptakan koneksi emosional dengan audiens, serta bagaimana Saujana Project dapat membantu Anda merancang cerita brand yang kuat dan autentik.</p>
+            <p class="reveal">Blog ini akan mengupas tentang kekuatan cerita dalam menciptakan koneksi emosional dengan audiens, serta bagaimana Saujana Project dapat membantu Anda merancang cerita brand yang kuat dan autentik.</p>
 
-        <h2 class="reveal">Mengapa Brand Storytelling penting untuk bisnis</h2>
-        <ol class="reveal">
-            <li><strong>Membangun Koneksi Emosional:</strong> Orang cenderung mengingat cerita lebih lama dibandingkan dengan data dan fakta. Dengan menyampaikan narasi yang menyentuh emosi, brand Anda menjadi lebih mudah diingat dan relevan di benak audiens.</li>
-            <li><strong>Membedakan Brand dari Pesaing:</strong> Di tengah persaingan pasar yang ketat, cerita yang autentik dan menarik akan membedakan brand Anda dari kompetitor.</li>
-            <li><strong>Meningkatkan Loyalitas Pelanggan:</strong> Ketika audiens merasa terhubung secara emosional dengan brand Anda, mereka akan lebih loyal dan menjadi advokat brand.</li>
-            <li><strong>Meningkatkan Engagement dan Konversi:</strong> Cerita yang menarik mampu menarik perhatian audiens lebih lama, sehingga meningkatkan peluang konversi.</li>
-        </ol>
+            <h2 class="reveal">Mengapa Brand Storytelling penting untuk bisnis</h2>
+            <ol class="reveal">
+                <li><strong>Membangun Koneksi Emosional:</strong> Orang cenderung mengingat cerita lebih lama dibandingkan dengan data dan fakta. Dengan menyampaikan narasi yang menyentuh emosi, brand Anda menjadi lebih mudah diingat dan relevan di benak audiens.</li>
+                <li><strong>Membedakan Brand dari Pesaing:</strong> Di tengah persaingan pasar yang ketat, cerita yang autentik dan menarik akan membedakan brand Anda dari kompetitor.</li>
+                <li><strong>Meningkatkan Loyalitas Pelanggan:</strong> Ketika audiens merasa terhubung secara emosional dengan brand Anda, mereka akan lebih loyal dan menjadi advokat brand.</li>
+                <li><strong>Meningkatkan Engagement dan Konversi:</strong> Cerita yang menarik mampu menarik perhatian audiens lebih lama, sehingga meningkatkan peluang konversi.</li>
+            </ol>
 
-        <h2 class="reveal">Elemen penting dalam Brand Storytelling</h2>
-        <ul class="checklist reveal">
-            <li><strong>Autentisitas:</strong> Cerita yang jujur dan autentik lebih mudah dipercaya dan relevan bagi audiens.</li>
-            <li><strong>Karakter yang Relatable:</strong> Gunakan karakter yang bisa dihubungkan oleh audiens, seperti kisah pendiri brand, karyawan, atau pelanggan.</li>
-            <li><strong>Emosi yang Kuat:</strong> Cerita yang mengandung emosi seperti inspirasi, kebahagiaan, atau nostalgia lebih mudah diingat.</li>
-            <li><strong>Pesan Brand yang Jelas:</strong> Pastikan cerita Anda selaras dengan visi dan misi brand, sehingga pesan yang disampaikan konsisten.</li>
-            <li><strong>Visual dan Audio yang Memukau:</strong> Gunakan <strong>video production</strong> dan <strong>photography</strong> berkualitas tinggi untuk menciptakan pengalaman yang imersif dan berkesan.</li>
-        </ul>
+            <h2 class="reveal">Elemen penting dalam Brand Storytelling</h2>
+            <ul class="checklist reveal">
+                <li><strong>Autentisitas:</strong> Cerita yang jujur dan autentik lebih mudah dipercaya dan relevan bagi audiens.</li>
+                <li><strong>Karakter yang Relatable:</strong> Gunakan karakter yang bisa dihubungkan oleh audiens, seperti kisah pendiri brand, karyawan, atau pelanggan.</li>
+                <li><strong>Emosi yang Kuat:</strong> Cerita yang mengandung emosi seperti inspirasi, kebahagiaan, atau nostalgia lebih mudah diingat.</li>
+                <li><strong>Pesan Brand yang Jelas:</strong> Pastikan cerita Anda selaras dengan visi dan misi brand, sehingga pesan yang disampaikan konsisten.</li>
+                <li><strong>Visual dan Audio yang Memukau:</strong> Gunakan <strong>video production</strong> dan <strong>photography</strong> berkualitas tinggi untuk menciptakan pengalaman yang imersif dan berkesan.</li>
+            </ul>
 
-        <div class="reveal" style="text-align:center; margin:48px 0;">
-            <p style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Ready to craft your brand story with the right visual elements?</p>
-            <a href="contact.html" class="btn-primary">Let's Build Your Brand Story</a>
+            <div class="reveal" style="text-align:center; margin:48px 0;">
+                <p style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Siap membangun cerita brand Anda dengan elemen visual yang tepat?</p>
+                <a href="contact.html" class="btn-primary">Mari Bangun Brand Story Anda</a>
+            </div>
+
+            <h2 class="reveal">Bagaimana Saujana Project Membantu Anda dalam Brand Storytelling?</h2>
+            <ol class="reveal">
+                <li><strong>Video Production:</strong> Membuat video komersial dan brand film berkualitas tinggi yang menceritakan kisah brand Anda secara emosional dan efektif.</li>
+                <li><strong>Photography Production:</strong> Mengabadikan momen dan visual yang memukau untuk memperkuat cerita brand Anda.</li>
+                <li><strong>Design &amp; Branding:</strong> Merancang identitas visual dan strategi branding yang konsisten dengan cerita brand Anda.</li>
+                <li><strong>Digital Marketing:</strong> Memaksimalkan jangkauan cerita brand Anda melalui strategi pemasaran digital yang tepat di sosial media dan platform digital lainnya.</li>
+            </ol>
+
+            <div class="reveal" style="text-align:center; margin:48px 0 0;">
+                <p style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Biarkan Saujana Project menghidupkan cerita brand Anda melalui video, fotografi, dan strategi kreatif.</p>
+                <a href="contact.html" class="btn-primary">Konsultasi Gratis</a>
+            </div>
         </div>
 
-        <h2 class="reveal">Bagaimana Saujana Project Membantu Anda dalam Brand Storytelling?</h2>
-        <ol class="reveal">
-            <li><strong>Video Production:</strong> Membuat video komersial dan brand film berkualitas tinggi yang menceritakan kisah brand Anda secara emosional dan efektif.</li>
-            <li><strong>Photography Production:</strong> Mengabadikan momen dan visual yang memukau untuk memperkuat cerita brand Anda.</li>
-            <li><strong>Design &amp; Branding:</strong> Merancang identitas visual dan strategi branding yang konsisten dengan cerita brand Anda.</li>
-            <li><strong>Digital Marketing:</strong> Memaksimalkan jangkauan cerita brand Anda melalui strategi pemasaran digital yang tepat di sosial media dan platform digital lainnya.</li>
-        </ol>
+        <!-- ENGLISH -->
+        <div data-lang="en">
+            <h2 class="reveal">What is Brand Storytelling?</h2>
+            <p class="reveal"><strong>Brand Storytelling</strong> is the art and method of communicating your brand's values, vision, and mission through compelling and emotional narratives targeted at your business audience. Unlike regular advertising that focuses solely on sales, <strong>Brand Storytelling</strong> focuses on narratives that connect audiences with your brand on an emotional level. The goal is to create experiences that inspire and leave a lasting impression.</p>
 
-        <div class="reveal" style="text-align:center; margin:48px 0 0;">
-            <p style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Let Saujana Project bring your brand story to life through video, photography, and creative strategy.</p>
-            <a href="contact.html" class="btn-primary">Get a Free Consultation</a>
+            <p class="reveal">Here are examples of Brand Storytelling from well-known brands:</p>
+            <ol class="reveal">
+                <li><strong>Nike &ndash; Just Do It:</strong> Nike inspires audiences with stories of motivation and empowerment through athletes who push beyond their limits.</li>
+                <li><strong>Dove &ndash; Real Beauty:</strong> Dove celebrates natural beauty and challenges unrealistic beauty standards, creating a strong emotional connection with audiences.</li>
+            </ol>
+
+            <p class="reveal">In an increasingly competitive digital marketing landscape, Brand Storytelling has become a highly effective strategy to differentiate your brand from competitors. But what exactly is Brand Storytelling, and how can you use it to strengthen your brand identity?</p>
+
+            <p class="reveal">This blog explores the power of storytelling in creating emotional connections with audiences, and how Saujana Project can help you craft a strong and authentic brand story.</p>
+
+            <h2 class="reveal">Why is Brand Storytelling important for business?</h2>
+            <ol class="reveal">
+                <li><strong>Building Emotional Connections:</strong> People tend to remember stories longer than data and facts. By delivering narratives that touch emotions, your brand becomes more memorable and relevant in the minds of your audience.</li>
+                <li><strong>Differentiating Your Brand from Competitors:</strong> In a highly competitive market, an authentic and compelling story will set your brand apart from the competition.</li>
+                <li><strong>Increasing Customer Loyalty:</strong> When audiences feel emotionally connected to your brand, they become more loyal and turn into brand advocates.</li>
+                <li><strong>Boosting Engagement and Conversions:</strong> Compelling stories capture audience attention for longer, increasing conversion opportunities.</li>
+            </ol>
+
+            <h2 class="reveal">Key Elements of Brand Storytelling</h2>
+            <ul class="checklist reveal">
+                <li><strong>Authenticity:</strong> Honest and authentic stories are more trustworthy and relevant to audiences.</li>
+                <li><strong>Relatable Characters:</strong> Use characters your audience can relate to, such as the brand founder's journey, employees, or customers.</li>
+                <li><strong>Strong Emotions:</strong> Stories that evoke emotions like inspiration, happiness, or nostalgia are easier to remember.</li>
+                <li><strong>Clear Brand Message:</strong> Ensure your story aligns with your brand's vision and mission, so the message delivered is consistent.</li>
+                <li><strong>Stunning Visuals and Audio:</strong> Use high-quality <strong>video production</strong> and <strong>photography</strong> to create immersive and memorable experiences.</li>
+            </ul>
+
+            <div class="reveal" style="text-align:center; margin:48px 0;">
+                <p style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Ready to craft your brand story with the right visual elements?</p>
+                <a href="contact.html" class="btn-primary">Let's Build Your Brand Story</a>
+            </div>
+
+            <h2 class="reveal">How Saujana Project Helps You with Brand Storytelling</h2>
+            <ol class="reveal">
+                <li><strong>Video Production:</strong> Creating high-quality commercial videos and brand films that tell your brand story emotionally and effectively.</li>
+                <li><strong>Photography Production:</strong> Capturing stunning moments and visuals to strengthen your brand narrative.</li>
+                <li><strong>Design &amp; Branding:</strong> Designing visual identities and branding strategies that are consistent with your brand story.</li>
+                <li><strong>Digital Marketing:</strong> Maximizing the reach of your brand story through targeted digital marketing strategies across social media and other digital platforms.</li>
+            </ol>
+
+            <div class="reveal" style="text-align:center; margin:48px 0 0;">
+                <p style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Let Saujana Project bring your brand story to life through video, photography, and creative strategy.</p>
+                <a href="contact.html" class="btn-primary">Get a Free Consultation</a>
+            </div>
         </div>
     </div>
 
@@ -505,6 +606,29 @@
                 answer.style.maxHeight = answer.scrollHeight + 'px';
             }
         }
+
+        // Language toggle
+        var langSwitch = document.getElementById('langSwitch');
+        var langLabels = document.querySelectorAll('.lang-label');
+        var currentLang = 'id';
+
+        langSwitch.addEventListener('click', function() {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            document.body.classList.toggle('lang-en', currentLang === 'en');
+            langSwitch.classList.toggle('en', currentLang === 'en');
+            langLabels.forEach(function(l) {
+                l.classList.toggle('active', l.getAttribute('data-l') === currentLang);
+            });
+            // Re-trigger reveal for newly visible elements
+            document.querySelectorAll('.reveal:not(.visible)').forEach(function(el) { obs.observe(el); });
+        });
+
+        langLabels.forEach(function(l) {
+            l.addEventListener('click', function() {
+                var lang = l.getAttribute('data-l');
+                if (lang !== currentLang) langSwitch.click();
+            });
+        });
 
         // Reveal on scroll
         const reveals = document.querySelectorAll('.reveal');
