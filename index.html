@@ -1027,10 +1027,8 @@
             <div class="about-grid">
                 <div class="about-media reveal">
                     <div class="video-player" id="videoPlayer">
-                        <img src="https://img.youtube.com/vi/p3xkaZzc49o/maxresdefault.jpg" alt="Saujana Project Showreel" class="vp-thumbnail" id="vpThumbnail" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
-                        <div class="vp-iframe-wrap" id="vpIframeWrap" style="display:none; position:absolute; inset:0; z-index:2;">
-                            <iframe id="vpIframe" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute; inset:0; width:100%; height:100%;"></iframe>
-                        </div>
+                        <div id="ytPlayerDiv" style="position:absolute; inset:0; width:100%; height:100%;"></div>
+                        <img src="https://img.youtube.com/vi/p3xkaZzc49o/maxresdefault.jpg" alt="Saujana Project Showreel" class="vp-thumbnail" id="vpThumbnail" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;">
                         <button class="vp-play-overlay" id="vpPlayOverlay" style="position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.35); border:none; cursor:pointer; transition:background 0.3s;">
                             <svg width="72" height="72" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.64 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24L27 14v20" fill="#fff"/></svg>
                         </button>
@@ -1466,69 +1464,152 @@
         });
     </script>
 
-    <!-- Video Player Script -->
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-    (function() {
-        var overlay = document.getElementById('vpPlayOverlay');
-        var thumbnail = document.getElementById('vpThumbnail');
-        var iframeWrap = document.getElementById('vpIframeWrap');
-        var iframe = document.getElementById('vpIframe');
-        var embedUrls = [
-            'https://www.youtube.com/embed/p3xkaZzc49o?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0&playsinline=1&enablejsapi=1',
-            'https://www.youtube-nocookie.com/embed/p3xkaZzc49o?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0&playsinline=1',
-            'https://www.youtube.com/embed/p3xkaZzc49o?autoplay=1&mute=1&controls=1&rel=0'
-        ];
-        var currentUrl = 0;
-        var embedStarted = false;
+    var ytPlayer, vpInterval, vpMuted = false, vpIsHD = true, vpStarted = false;
 
-        function tryEmbed() {
-            if (currentUrl >= embedUrls.length) {
-                // All embeds failed — open YouTube directly
-                window.open('https://www.youtube.com/watch?v=p3xkaZzc49o', '_blank');
-                return;
+    function onYouTubeIframeAPIReady() {
+        ytPlayer = new YT.Player('ytPlayerDiv', {
+            videoId: 'p3xkaZzc49o',
+            playerVars: {
+                controls: 0,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0,
+                playsinline: 1,
+                disablekb: 1,
+                fs: 0,
+                iv_load_policy: 3
+            },
+            events: {
+                onReady: onPlayerReady,
+                onStateChange: onPlayerStateChange,
+                onError: onPlayerError
             }
-            iframe.src = embedUrls[currentUrl];
-            iframeWrap.style.display = 'block';
-            thumbnail.style.display = 'none';
-            overlay.style.display = 'none';
-            embedStarted = true;
+        });
+    }
 
-            // Check if iframe loaded successfully after a delay
-            setTimeout(function() {
-                try {
-                    // If we can't access contentWindow, it might have errored
-                    // We rely on the user seeing the video; if not, they click play again
-                } catch(e) {
-                    currentUrl++;
-                    tryEmbed();
-                }
-            }, 3000);
+    function onPlayerReady(e) {
+        e.target.setPlaybackQuality('hd720');
+    }
+
+    function onPlayerStateChange(e) {
+        var playing = (e.data === YT.PlayerState.PLAYING);
+        updatePlayIcon(playing);
+        if (playing) {
+            startProgressTracker();
+        } else {
+            clearInterval(vpInterval);
         }
+    }
 
-        // Click play overlay to start
-        overlay.addEventListener('click', function(e) {
-            e.preventDefault();
-            tryEmbed();
-        });
+    function onPlayerError(e) {
+        // Fallback: open YouTube directly
+        window.open('https://www.youtube.com/watch?v=p3xkaZzc49o', '_blank');
+    }
 
-        // Play button in controls
-        document.getElementById('vpPlayBtn').addEventListener('click', function() {
-            if (!embedStarted) {
-                tryEmbed();
+    function startProgressTracker() {
+        clearInterval(vpInterval);
+        vpInterval = setInterval(function() {
+            if (!ytPlayer || !ytPlayer.getDuration) return;
+            var dur = ytPlayer.getDuration();
+            var cur = ytPlayer.getCurrentTime();
+            if (dur > 0) {
+                var pct = (cur / dur) * 100;
+                document.getElementById('vpProgressBar').style.width = pct + '%';
+                document.getElementById('vpProgressThumb').style.left = pct + '%';
             }
-        });
+        }, 250);
+    }
 
-        // Fullscreen
-        document.getElementById('vpFullscreen').addEventListener('click', function() {
-            var el = document.getElementById('videoPlayer');
+    function updatePlayIcon(playing) {
+        var btn = document.getElementById('vpPlayBtn');
+        btn.innerHTML = playing
+            ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>'
+            : '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
+    }
+
+    function updateMuteIcon() {
+        var btn = document.getElementById('vpMuteBtn');
+        btn.innerHTML = vpMuted
+            ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>'
+            : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>';
+    }
+
+    // Play overlay — start video
+    document.getElementById('vpPlayOverlay').addEventListener('click', function(e) {
+        e.preventDefault();
+        if (ytPlayer && ytPlayer.playVideo) {
+            ytPlayer.playVideo();
+            document.getElementById('vpThumbnail').style.display = 'none';
+            this.style.display = 'none';
+            vpStarted = true;
+        }
+    });
+
+    // Play/Pause button
+    document.getElementById('vpPlayBtn').addEventListener('click', function() {
+        if (!ytPlayer) return;
+        if (!vpStarted) {
+            ytPlayer.playVideo();
+            document.getElementById('vpThumbnail').style.display = 'none';
+            document.getElementById('vpPlayOverlay').style.display = 'none';
+            vpStarted = true;
+            return;
+        }
+        var state = ytPlayer.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+            ytPlayer.pauseVideo();
+        } else {
+            ytPlayer.playVideo();
+        }
+    });
+
+    // Mute/Unmute button
+    document.getElementById('vpMuteBtn').addEventListener('click', function() {
+        if (!ytPlayer) return;
+        vpMuted = !vpMuted;
+        if (vpMuted) {
+            ytPlayer.mute();
+        } else {
+            ytPlayer.unMute();
+            ytPlayer.setVolume(100);
+        }
+        updateMuteIcon();
+    });
+
+    // Progress bar seek
+    document.getElementById('vpProgress').addEventListener('click', function(e) {
+        if (!ytPlayer || !ytPlayer.getDuration) return;
+        var rect = this.getBoundingClientRect();
+        var pct = (e.clientX - rect.left) / rect.width;
+        ytPlayer.seekTo(pct * ytPlayer.getDuration(), true);
+    });
+
+    // HD toggle
+    document.getElementById('vpQuality').addEventListener('click', function() {
+        if (!ytPlayer) return;
+        vpIsHD = !vpIsHD;
+        ytPlayer.setPlaybackQuality(vpIsHD ? 'hd720' : 'small');
+        this.style.opacity = vpIsHD ? '1' : '0.4';
+    });
+
+    // Fullscreen
+    document.getElementById('vpFullscreen').addEventListener('click', function() {
+        var el = document.getElementById('videoPlayer');
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        } else {
             if (el.requestFullscreen) el.requestFullscreen();
             else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-        });
+        }
+    });
 
-        // Hover effect on overlay
-        overlay.addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.15)'; });
-        overlay.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.35)'; });
-    })();
+    // Hover effect on overlay
+    document.getElementById('vpPlayOverlay').addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.15)'; });
+    document.getElementById('vpPlayOverlay').addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.35)'; });
     </script>
 </body>
 </html>
