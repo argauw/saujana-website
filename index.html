@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saujana Project Creative Production Agency</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-dark.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #040610;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse 120% 80% at 80% 90%, rgba(60,140,180,0.35) 0%, transparent 60%),
+                radial-gradient(ellipse 80% 60% at 65% 55%, rgba(200,180,220,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 90% 70% at 70% 50%, rgba(200,120,60,0.3) 0%, transparent 50%),
+                radial-gradient(ellipse 80% 60% at 75% 40%, rgba(120,60,150,0.25) 0%, transparent 55%),
+                radial-gradient(ellipse 100% 80% at 30% 20%, rgba(15,10,60,0.95) 0%, transparent 60%),
+                linear-gradient(135deg, #020510 0%, #060a30 25%, #0e1040 40%, #1a1050 55%, #4a2838 70%, #b87838 82%, #508090 95%);
+            filter: blur(40px);
+            z-index: -1;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* ===== CUSTOM PROPERTIES ===== */
+        :root {
+            --red: #E8854A;
+            --red-hover: #D4703A;
+            --dark: #050818;
+            --dark-card: rgba(8,10,35,0.7);
+            --dark-border: rgba(40,35,90,0.35);
+            --text-muted: #e8ecf2;
+            --text-light: #f0f2f6;
+            --max-width: 1200px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* ===== UTILITY ===== */
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+        .section-title {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            display: inline-block;
+            background: var(--red);
+            color: #111;
+            padding: 14px 36px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { background: var(--red-hover); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(232,133,74,0.3); }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .smoke-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .smoke-bg::before, .smoke-bg::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.12;
+            animation: floatSmoke 20s ease-in-out infinite;
+        }
+        .smoke-bg::before {
+            width: 600px; height: 600px;
+            background: #132969;
+            top: -200px; right: -100px;
+            animation-delay: 0s;
+        }
+        .smoke-bg::after {
+            width: 500px; height: 500px;
+            background: #3a1a50;
+            bottom: -150px; left: -100px;
+            animation-delay: -10s;
+        }
+        @keyframes floatSmoke {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.95); }
+            75% { transform: translate(40px, 20px) scale(1.05); }
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.4s ease;
+        }
+        .navbar.scrolled {
+            background: rgba(4, 6, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 10px 0;
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo img { height: 80px; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.8);
+            transition: color 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--red);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: #fff; }
+        .nav-links a.active::after { width: 100%; }
+        .nav-cta { margin-left: 16px; }
+        .nav-cta .btn-primary { padding: 10px 24px; font-size: 0.85rem; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .hamburger span {
+            width: 28px; height: 2px;
+            background: #fff;
+            transition: all 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+            background: #020A54;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero-bg video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(4,6,20,0.3) 0%, rgba(4,6,20,0.5) 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 14rem 24px 0;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+        }
+        .hero h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 3.75rem;
+            font-weight: 900;
+            line-height: 0.98;
+            text-transform: uppercase;
+            color: #fff;
+            letter-spacing: -2px;
+            margin-bottom: 48px;
+        }
+        .hero h1 .line { display: block; }
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 6rem; letter-spacing: -3px; }
+            .hero-content { padding-top: 18rem; }
+        }
+        @media (min-width: 1024px) {
+            .hero h1 { font-size: 100px; letter-spacing: -4px; }
+        }
+        .hero-cta {
+            position: relative;
+            display: inline-block;
+            width: 184px;
+            height: 65px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+        .hero-cta:hover { transform: scale(1.05); }
+        .hero-cta:active { transform: scale(0.95); }
+        .hero-cta svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-cta span {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            text-transform: uppercase;
+            color: #161a20;
+            letter-spacing: 0.5px;
+        }
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+        }
+        .hero-scroll i { font-size: 1.5rem; color: rgba(255,255,255,0.4); }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ===== ABOUT ===== */
+        .about { padding: 120px 0; }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-media { position: relative; }
+        .about-media img {
+            border-radius: 12px;
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+        }
+        .about-media::before {
+            content: '';
+            position: absolute;
+            top: -12px; left: -12px;
+            width: 80px; height: 80px;
+            border-top: 3px solid var(--red);
+            border-left: 3px solid var(--red);
+            border-radius: 4px 0 0 0;
+        }
+        .about-media::after {
+            content: '';
+            position: absolute;
+            bottom: -12px; right: -12px;
+            width: 80px; height: 80px;
+            border-bottom: 3px solid var(--red);
+            border-right: 3px solid var(--red);
+            border-radius: 0 0 4px 0;
+        }
+        /* ===== CUSTOM VIDEO PLAYER ===== */
+        .video-player {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            aspect-ratio: 16/9;
+        }
+        .video-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .video-wrapper iframe, #ytPlayer {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .vp-sound-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .vp-sound-btn:hover { background: rgba(0,0,0,0.8); }
+        .vp-sound-btn.hidden { display: none; }
+        .vp-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            z-index: 10;
+        }
+        .vp-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        .vp-btn:hover { opacity: 1; }
+        .vp-quality {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border: 1.5px solid rgba(255,255,255,0.7) !important;
+            border-radius: 3px;
+            padding: 1px 5px !important;
+            letter-spacing: 0.5px;
+        }
+        .vp-progress {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+        .vp-progress-bar {
+            height: 100%;
+            background: #fff;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        .vp-progress-thumb {
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 6px rgba(0,0,0,0.4);
+            transition: left 0.1s linear;
+        }
+
+        .vp-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+        }
+        .vp-iframe-wrap {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+        }
+        .vp-iframe-wrap iframe {
+            width: 100%;
+            height: 100%;
+        }
+        .vp-play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background: rgba(0,0,0,0.45);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding-left: 6px;
+        }
+        .vp-play-overlay:hover { background: rgba(0,0,0,0.7); border-color: rgba(255,255,255,0.6); transform: translate(-50%, -50%) scale(1.1); }
+        .vp-play-overlay.hidden { display: none; }
+
+        .about-tag {
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--red);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .about-text h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+        .about-text .btn-primary { margin-top: 16px; }
+
+        /* ===== SERVICES ===== */
+        .services { padding: 120px 0; position: relative; }
+        .services::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(20,20,40,0.15), transparent);
+            pointer-events: none;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .service-card {
+            background: var(--dark-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            padding: 36px 28px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--red), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .service-card:hover { transform: translateY(-8px); border-color: rgba(232,133,74,0.2); }
+        .service-card:hover::before { opacity: 1; }
+        .service-icon {
+            width: 56px; height: 56px;
+            background: rgba(232,133,74,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .service-icon i { font-size: 1.4rem; color: var(--red); }
+        .service-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* ===== PORTFOLIO ===== */
+        .portfolio { padding: 120px 0; }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .portfolio-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+        }
+        .portfolio-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85));
+            opacity: 0;
+            transition: opacity 0.4s;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+        }
+        .portfolio-item:hover img { transform: scale(1.08); }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+        .portfolio-overlay h4 { font-family: 'Inter', sans-serif; font-size: 1.1rem; }
+        .portfolio-overlay p { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+        .portfolio-item:nth-child(1) { grid-column: span 2; }
+
+        /* ===== CLIENTS ===== */
+        .clients { padding: 80px 0; border-top: 1px solid var(--dark-border); border-bottom: 1px solid var(--dark-border); }
+        .clients-track {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            animation: scrollClients 15s linear infinite;
+        }
+        .clients-slider { overflow: hidden; }
+        .clients-track img {
+            height: 60px;
+            max-width: 180px;
+            width: auto;
+            object-fit: contain;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+            flex-shrink: 0;
+        }
+        .clients-track img.logo-lg {
+            height: 90px;
+            max-width: 220px;
+        }
+        .clients-track img.logo-xl {
+            height: 130px;
+            max-width: 280px;
+        }
+        .clients-track img:hover { opacity: 1; }
+        @keyframes scrollClients {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials { padding: 120px 0; }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .testimonial-card {
+            background: var(--dark-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            padding: 36px 28px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .testimonial-card:hover { border-color: rgba(232,133,74,0.3); }
+        .testimonial-card .quote-icon {
+            font-size: 2rem;
+            color: var(--red);
+            opacity: 0.3;
+            margin-bottom: 16px;
+        }
+        .testimonial-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 24px;
+        }
+        .testimonial-author { display: flex; align-items: center; gap: 12px; }
+        .testimonial-author .avatar {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--red), #6B9675);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .testimonial-author h5 { font-size: 0.95rem; font-weight: 600; }
+        .testimonial-author span { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* ===== STATS ===== */
+        .stats { padding: 80px 0; position: relative; }
+        .stats::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(232,133,74,0.05), rgba(30,30,80,0.1));
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            position: relative;
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ===== FAQ ===== */
+        .faq { padding: 120px 0; }
+        .faq-list { max-width: 800px; margin: 0 auto; }
+        .faq-item {
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        .faq-item.active { border-color: rgba(232,133,74,0.3); }
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95rem;
+            background: var(--dark-card);
+            transition: background 0.3s;
+        }
+        .faq-question:hover { background: #0D1F5E; }
+        .faq-question i { transition: transform 0.3s; color: var(--red); font-size: 0.85rem; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .faq-answer-inner {
+            padding: 0 24px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            padding: 40px 0 120px;
+            text-align: center;
+            position: relative;
+        }
+        .cta-features {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+        .cta-feature { text-align: center; }
+        .cta-feature-icon {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            transition: all 0.3s;
+        }
+        .cta-feature-icon i { font-size: 2.8rem; color: var(--red); }
+        .cta-feature:hover .cta-feature-icon { border-color: var(--red); background: rgba(232,133,74,0.05); }
+        .cta-feature span { font-size: 1.05rem; color: var(--text-muted); font-weight: 600; }
+        .cta-section h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 32px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 60px 0 24px;
+            border-top: 1px solid var(--dark-border);
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--dark-border);
+        }
+        .footer-brand img { height: 100px; margin-bottom: 16px; }
+        .footer-brand .tagline {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+        .footer-brand .contact-item {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-brand .contact-item i { color: var(--red); font-size: 0.8rem; width: 16px; }
+        .footer-col h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .footer-col a {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover { color: var(--red); }
+        .footer-social { display: flex; gap: 12px; margin-top: 20px; }
+        .footer-social a {
+            width: 40px; height: 40px;
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .footer-social a:hover { background: var(--red); border-color: var(--red); }
+        .footer-bottom {
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+        .footer-bottom span { color: var(--text-muted); }
+        .footer-partners { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* ===== CONTACT PAGE SECTION ===== */
+        .contact-hero {
+            padding: 160px 0 80px;
+            text-align: center;
+        }
+        .contact-hero h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .contact-hero p { color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; }
+        .contact-form-wrapper {
+            max-width: 580px;
+            margin: 0 auto;
+            padding: 40px;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .form-group label .required { color: var(--red); }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--red);
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: #555; }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-submit { text-align: center; margin-top: 8px; }
+        .form-submit .btn-primary { width: 100%; padding: 14px; font-size: 1rem; }
+
+        /* ===== PAGE TRANSITIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== MOBILE NAV ===== */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(4,6,20,0.98);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            font-size: 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .mobile-menu a:hover { color: var(--red); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 968px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr 1fr; }
+            .portfolio-item:nth-child(1) { grid-column: span 2; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 640px) {
+            .services-grid { grid-template-columns: 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .portfolio-item:nth-child(1) { grid-column: span 1; }
+            .stats-grid { grid-template-columns: 1fr; gap: 32px; }
+            .cta-features { gap: 32px; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+            .hero h1 { font-size: 2.2rem; }
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.95);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 24px; right: 24px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="smoke-bg"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="nav-logo">
+                <img src="assets/images/logo.png" alt="Saujana Project">
+            </a>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-cta">
+                <a href="contact.html" class="btn-primary">Contact Us</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="btn-primary" style="margin-top: 16px;">Contact Us</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <video autoplay loop muted playsinline>
+                <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260206_044704_dd33cb15-c23f-4cfc-aa09-a0465d4dcb54.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1>
+                <span class="line">Authentic Visual.</span>
+                <span class="line">Impactful Campaign.</span>
+            </h1>
+            <p style="font-size:1.15rem; line-height:1.7; max-width:700px; margin:32px auto 40px; color:rgba(255,255,255,0.9); font-weight:400; letter-spacing:0.2px;">We don't do generic. We study your brand, understand your audience, and build campaigns from the ground up. Combining cinematic visuals with sharp strategy, we create content that earns attention instead of begging for it.</p>
+            <a href="contact.html" class="hero-cta">
+                <svg viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 0H176C180.418 0 184 3.582 184 8V57C184 61.418 180.418 65 176 65H8C3.582 65 0 61.418 0 57V8C0 3.582 3.582 0 8 0Z" fill="#E8854A"/>
+                </svg>
+                <span>Get Started</span>
+            </a>
+        </div>
+        <div class="hero-scroll">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-media reveal">
+                    <div class="video-player" id="videoPlayer">
+                        <img src="https://img.youtube.com/vi/p3xkaZzc49o/maxresdefault.jpg" alt="Saujana Project Showreel" class="vp-thumbnail" id="vpThumbnail" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+                        <div class="vp-iframe-wrap" id="vpIframeWrap" style="display:none; position:absolute; inset:0; z-index:2;">
+                            <iframe id="vpIframe" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute; inset:0; width:100%; height:100%;"></iframe>
+                        </div>
+                        <button class="vp-play-overlay" id="vpPlayOverlay" style="position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.35); border:none; cursor:pointer; transition:background 0.3s;">
+                            <svg width="72" height="72" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.64 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24L27 14v20" fill="#fff"/></svg>
+                        </button>
+                        <div class="vp-controls" id="vpControls" style="position:absolute; bottom:0; left:0; right:0; z-index:4; background:linear-gradient(transparent, rgba(0,0,0,0.85)); padding:10px 14px; display:flex; align-items:center; gap:10px;">
+                            <button class="vp-btn" id="vpPlayBtn" style="background:none; border:none; color:#fff; cursor:pointer; padding:4px;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                            </button>
+                            <div class="vp-progress" id="vpProgress" style="flex:1; height:4px; background:rgba(255,255,255,0.3); border-radius:2px; cursor:pointer; position:relative;">
+                                <div class="vp-progress-bar" id="vpProgressBar" style="height:100%; background:#ff0000; border-radius:2px; width:0%; transition:width 0.1s;"></div>
+                                <div class="vp-progress-thumb" id="vpProgressThumb" style="position:absolute; top:50%; left:0%; transform:translate(-50%,-50%); width:12px; height:12px; background:#ff0000; border-radius:50%; transition:left 0.1s;"></div>
+                            </div>
+                            <button class="vp-btn" id="vpMuteBtn" style="background:none; border:none; color:#fff; cursor:pointer; padding:4px;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+                            </button>
+                            <button class="vp-btn vp-quality" id="vpQuality" style="background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); color:#fff; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:3px; cursor:pointer;">HD</button>
+                            <button class="vp-btn" id="vpFullscreen" style="background:none; border:none; color:#fff; cursor:pointer; padding:4px;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text reveal">
+                    <div class="about-tag">Who Are We?</div>
+                    <h2>Your Creative Partner, From Concept to Creation</h2>
+                    <p><strong>Saujana Project</strong> is your creative partner, an one stop creative agency. We are a creative agency that can deliver a visual content production and marketing with the best quality and result, from creating brand story to the visual production and execution that makes your business and story in the most compelling and impactful way.</p>
+                    <p>More than a production company, we are a multi-disciplinary creative force. From branding and content creation to visual production, planning and digital marketing.</p>
+                    <p>We are available for global projects: Indonesia, coming and beyond.</p>
+                    <a href="contact.html" class="btn-primary">Get a Consultation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title reveal">Personalized Creative Solutions<br>For Your Needs</h2>
+            <p class="section-subtitle reveal">We provide a wide spectrum of premium creative services that blended with a lot of experience, strategy and understanding of the relevant trends.</p>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-video"></i></div>
+                    <h3>Video Production</h3>
+                    <p>We only create and deliver creative videos that drive results. From concept to final production, we cover digital ads, TV commercial, corporate videos, branded content, music videos, event documentation and social media content. We cover the social engagement strategies, promotional and creative film-making.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-camera"></i></div>
+                    <h3>Photography Production</h3>
+                    <p>High-quality commercial visual production such as fashion, lifestyle, product, corporate, food and beverage photography for all purpose modern digital advertising, internal digital editorial assets, and magazine-styled visuals for business.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-palette"></i></div>
+                    <h3>Design & Branding</h3>
+                    <p>We analyze our client's vision and needs. We simply design with intention, creating brand identities and compelling visual communication for clients such as brand development, visual identity and art direction. Services include logo design, packaging, website design and social media template.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Digital Marketing</h3>
+                    <p>Saujana Project provides strategic Digital Marketing services to help brands grow their online presence, engage audience, and drive conversions. Our services include Website Development, Social Media Management, META Ads, SEO Audit, and Cold Email Marketing.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-film"></i></div>
+                    <h3>Video Post Production</h3>
+                    <p>We offer professional offline editing (cutting) and color grading content for commercials and social media. Saujana Project ensures that every video is polished, purposeful, and ready for engagement, from social media to high-end commercial use.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3>Creative Consultancy</h3>
+                    <p>Saujana Project aims to help brands develop strong visual identities, effective storytelling, and impactful marketing strategies. Our services are Brand Strategy & Positioning, Content Strategy, Visual & Creative Direction, and Digital & Social Media Strategy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Clients -->
+    <section class="clients">
+        <div class="container">
+            <h2 class="section-title reveal" style="margin-bottom: 40px;">Mentioned Clients</h2>
+            <div class="clients-slider">
+                <div class="clients-track" id="clientsTrack">
+                    <img src="assets/logos/tobatenun.png" alt="Tobatenun">
+                    <img src="assets/logos/canva.png" alt="Canva">
+                    <img src="assets/logos/brodo.png" alt="Brodo" class="logo-lg">
+                    <img src="assets/logos/poco.png" alt="POCO">
+                    <img src="assets/logos/embagroup.png" alt="Emba Group" class="logo-lg">
+                    <img src="assets/logos/sony.png" alt="Sony" class="logo-xl">
+                    <img src="assets/logos/santika.png" alt="Santika Hotels" class="logo-xl">
+                    <img src="assets/logos/siloam.png" alt="Siloam Hospitals">
+                    <img src="assets/logos/brodoactive.png" alt="Brodo Active" class="logo-lg">
+                    <img src="assets/logos/sandisk.png" alt="SanDisk Professional" class="logo-xl">
+                    <img src="assets/logos/canon.png" alt="Canon">
+                    <img src="assets/logos/dialoog.png" alt="Dialoog Hotel" class="logo-lg">
+                    <img src="assets/logos/wonderfulindonesia.png" alt="Wonderful Indonesia">
+                    <img src="assets/logos/avor.png" alt="AVOR" class="logo-lg">
+                    <img src="assets/logos/armour.png" alt="Armour">
+                    <img src="assets/logos/kliniksarangan.png" alt="Klinik Sarangan">
+                    <img src="assets/logos/kemenparekraf.png" alt="Kemenparekraf">
+                    <img src="assets/logos/doss.png" alt="DOSS">
+                    <img src="assets/logos/skii.svg" alt="SK-II">
+                    <!-- Duplicate for seamless loop -->
+                    <img src="assets/logos/tobatenun.png" alt="Tobatenun">
+                    <img src="assets/logos/canva.png" alt="Canva">
+                    <img src="assets/logos/brodo.png" alt="Brodo" class="logo-lg">
+                    <img src="assets/logos/poco.png" alt="POCO">
+                    <img src="assets/logos/embagroup.png" alt="Emba Group" class="logo-lg">
+                    <img src="assets/logos/sony.png" alt="Sony" class="logo-xl">
+                    <img src="assets/logos/santika.png" alt="Santika Hotels" class="logo-xl">
+                    <img src="assets/logos/siloam.png" alt="Siloam Hospitals">
+                    <img src="assets/logos/brodoactive.png" alt="Brodo Active" class="logo-lg">
+                    <img src="assets/logos/sandisk.png" alt="SanDisk Professional" class="logo-xl">
+                    <img src="assets/logos/canon.png" alt="Canon">
+                    <img src="assets/logos/dialoog.png" alt="Dialoog Hotel" class="logo-lg">
+                    <img src="assets/logos/wonderfulindonesia.png" alt="Wonderful Indonesia">
+                    <img src="assets/logos/avor.png" alt="AVOR" class="logo-lg">
+                    <img src="assets/logos/armour.png" alt="Armour">
+                    <img src="assets/logos/kliniksarangan.png" alt="Klinik Sarangan">
+                    <img src="assets/logos/kemenparekraf.png" alt="Kemenparekraf">
+                    <img src="assets/logos/doss.png" alt="DOSS">
+                    <img src="assets/logos/skii.svg" alt="SK-II">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title reveal">What They Said About<br>Saujana Project</h2>
+            <p class="section-subtitle reveal"></p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <i class="fas fa-quote-left quote-icon"></i>
+                    <p>"It was nice working with Saujana Team. So far, so good!"</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">YH</div>
+                        <div>
+                            <h5>Yukka Herlanda</h5>
+                            <span>CEO, Brodo Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal">
+                    <i class="fas fa-quote-left quote-icon"></i>
+                    <p>"Nice work, success to Saujana Project team."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">WJ</div>
+                        <div>
+                            <h5>Wendy Juniarto</h5>
+                            <span>President, Emba Group</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal">
+                    <i class="fas fa-quote-left quote-icon"></i>
+                    <p>"Superb works. Genuinely contributed outstanding collections throughout!"</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">KT</div>
+                        <div>
+                            <h5>Karla Tulabut</h5>
+                            <span>Operation Team, Canva Inc.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item reveal">
+                    <div class="stat-number" data-target="2020">2020</div>
+                    <div class="stat-label">Founded</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-number" data-target="150">0</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-number" data-target="55">0</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title reveal">Frequently Asked Questions</h2>
+            <p class="section-subtitle reveal"></p>
+            <div class="faq-list reveal">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>How long does it take to produce a video from start to finish?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">The timeline for video production varies depending on the complexity of the project. A simple social media video can take 1-2 weeks, while a full production with scripting, filming, and post-production may take 4-8 weeks. We'll provide a detailed timeline during our initial consultation.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Do I need to provide all the content, or can you help with copywriting and creative concepts?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">We handle everything! From concept development to content creation, our team of creative professionals will collaborate with you to ensure the final product aligns with your brand vision and goals.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>What factors influence the cost of video production and pricing?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Pricing depends on several factors including the type of video, production length, complexity of editing, talent requirements, location, and special equipment needs. We offer competitive pricing and will provide a customized quote based on your specific needs and budget.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>How working with Saujana Project will look like?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Working with Saujana Project follows a conversational flexible process to ensure the creative direction and production captures and delivers the best quality. We start by understanding your needs, goals, and vision. From there, we develop a creative approach, including Creative Direction & concept delivery, and handle full production with transparent communication throughout.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>What other services does Saujana Project offer? Do you have a package offer?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Besides specialized visual production (video and photography), Saujana Project offers a range of creative and marketing services including Design, Branding & Creative Strategy, Digital Marketing & Social Media Management, Website Design & Development with SEO, Content Strategy & Storytelling Guidance, and Market Research & Trend Analysis. Each service is tailored to help brands enhance their presence, engage their audience, and drive results. We offer both individual services or as an integrated service package.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container reveal">
+            <div class="cta-features">
+                <div class="cta-feature">
+                    <div class="cta-feature-icon"><i class="fas fa-handshake"></i></div>
+                    <span>Trusted Partnership</span>
+                </div>
+                <div class="cta-feature">
+                    <div class="cta-feature-icon"><i class="fas fa-bullseye"></i></div>
+                    <span>Result Oriented</span>
+                </div>
+                <div class="cta-feature">
+                    <div class="cta-feature-icon"><i class="fas fa-rocket"></i></div>
+                    <span>Creative Excellence</span>
+                </div>
+            </div>
+            <h2>High-quality result. Hassle-free cooperation.</h2>
+            <p>Ready to start with us? Request a quote or schedule a free initial meeting with us now!</p>
+            <a href="contact.html" class="btn-primary">Start With Saujana</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="assets/images/logo.png" alt="Saujana Project">
+                    <p class="tagline">Create. Captivate. Inspire.</p>
+                    <div style="margin-top:16px;">
+                        <div class="contact-item"><i class="fas fa-envelope"></i> arga@saujanaproject.com</div>
+                        <div class="contact-item"><i class="fas fa-phone"></i> +6285184010270</div>
+                        <div class="contact-item"><i class="fas fa-map-marker-alt"></i> Jakarta & Malang, Indonesia</div>
+                    </div>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/saujana.project" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://id.linkedin.com/company/saujana-project" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.youtube.com/@saujanaprojectid" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.facebook.com/saujana.project" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+                    <a href="contact.html">Contact Us</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <a href="#services">Video Production</a>
+                    <a href="#services">Photography</a>
+                    <a href="#services">Design & Branding</a>
+                    <a href="#services">Digital Marketing</a>
+                    <a href="#services">Post Production</a>
+                </div>
+                <div class="footer-col">
+                    <h4>More</h4>
+                    <a href="blog.html">Blog</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#testimonials">Testimonials</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2020-2026 Saujana Project Creative & Production Agency.</span>
+                <span class="footer-partners">In partnership with SAB Digital Agency.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightboxImg" src="" alt="Portfolio">
+    </div>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY + 200;
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+                const link = document.querySelector(`.nav-links a[href="#${id}"]`);
+                if (link) {
+                    link.classList.toggle('active', scrollY >= top && scrollY < top + height);
+                }
+            });
+        });
+
+        // Reveal on scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Counter animation
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target);
+                    if (target === 2020) { el.textContent = '2020'; return; }
+                    let current = 0;
+                    const increment = target / 60;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            el.textContent = target + '+';
+                            clearInterval(timer);
+                        } else {
+                            el.textContent = Math.floor(current) + '+';
+                        }
+                    }, 25);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        statNumbers.forEach(el => counterObserver.observe(el));
+
+        // FAQ accordion
+        function toggleFaq(el) {
+            const item = el.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const isActive = item.classList.contains('active');
+
+            document.querySelectorAll('.faq-item').forEach(i => {
+                i.classList.remove('active');
+                i.querySelector('.faq-answer').style.maxHeight = null;
+            });
+
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        }
+
+        // Lightbox
+        function openLightbox(el) {
+            const img = el.querySelector('img');
+            document.getElementById('lightboxImg').src = img.src;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+    <!-- Video Player Script -->
+    <script>
+    (function() {
+        var overlay = document.getElementById('vpPlayOverlay');
+        var thumbnail = document.getElementById('vpThumbnail');
+        var iframeWrap = document.getElementById('vpIframeWrap');
+        var iframe = document.getElementById('vpIframe');
+        var embedUrls = [
+            'https://www.youtube.com/embed/p3xkaZzc49o?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0&playsinline=1&enablejsapi=1',
+            'https://www.youtube-nocookie.com/embed/p3xkaZzc49o?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0&playsinline=1',
+            'https://www.youtube.com/embed/p3xkaZzc49o?autoplay=1&mute=1&controls=1&rel=0'
+        ];
+        var currentUrl = 0;
+        var embedStarted = false;
+
+        function tryEmbed() {
+            if (currentUrl >= embedUrls.length) {
+                // All embeds failed — open YouTube directly
+                window.open('https://www.youtube.com/watch?v=p3xkaZzc49o', '_blank');
+                return;
+            }
+            iframe.src = embedUrls[currentUrl];
+            iframeWrap.style.display = 'block';
+            thumbnail.style.display = 'none';
+            overlay.style.display = 'none';
+            embedStarted = true;
+
+            // Check if iframe loaded successfully after a delay
+            setTimeout(function() {
+                try {
+                    // If we can't access contentWindow, it might have errored
+                    // We rely on the user seeing the video; if not, they click play again
+                } catch(e) {
+                    currentUrl++;
+                    tryEmbed();
+                }
+            }, 3000);
+        }
+
+        // Click play overlay to start
+        overlay.addEventListener('click', function(e) {
+            e.preventDefault();
+            tryEmbed();
+        });
+
+        // Play button in controls
+        document.getElementById('vpPlayBtn').addEventListener('click', function() {
+            if (!embedStarted) {
+                tryEmbed();
+            }
+        });
+
+        // Fullscreen
+        document.getElementById('vpFullscreen').addEventListener('click', function() {
+            var el = document.getElementById('videoPlayer');
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        });
+
+        // Hover effect on overlay
+        overlay.addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.15)'; });
+        overlay.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.35)'; });
+    })();
+    </script>
+</body>
+</html>

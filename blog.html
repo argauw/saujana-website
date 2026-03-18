@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Saujana Project</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-dark.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: #040610; color: #fff; line-height: 1.6; min-height: 100vh; position: relative; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 120% 80% at 80% 90%, rgba(60,140,180,0.35) 0%, transparent 60%), radial-gradient(ellipse 80% 60% at 65% 55%, rgba(200,180,220,0.12) 0%, transparent 50%), radial-gradient(ellipse 90% 70% at 70% 50%, rgba(200,120,60,0.3) 0%, transparent 50%), radial-gradient(ellipse 80% 60% at 75% 40%, rgba(120,60,150,0.25) 0%, transparent 55%), radial-gradient(ellipse 100% 80% at 30% 20%, rgba(15,10,60,0.95) 0%, transparent 60%), linear-gradient(135deg, #020510 0%, #060a30 25%, #0e1040 40%, #1a1050 55%, #4a2838 70%, #b87838 82%, #508090 95%); filter: blur(40px); z-index: -1; }
+        a { text-decoration: none; color: inherit; }
+        :root { --red: #E8854A; --red-hover: #D4703A; --dark-card: rgba(8,10,35,0.7); --dark-border: rgba(40,35,90,0.35); --text-muted: #e8ecf2; --text-light: #f0f2f6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 16px 0; background: rgba(4,6,20,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo img { height: 80px; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.8); transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+        .nav-cta .btn-primary { padding: 10px 24px; font-size: 0.85rem; }
+        .btn-primary { display: inline-block; background: var(--red); color: #111; padding: 14px 36px; border-radius: 6px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; transition: all 0.3s; }
+        .btn-primary:hover { background: var(--red-hover); transform: translateY(-2px); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { width: 28px; height: 2px; background: #fff; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(4,6,20,0.98); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { font-size: 1.5rem; font-family: 'Inter', sans-serif; font-weight: 600; }
+
+        /* Article Layout */
+        .article-hero {
+            padding: 160px 0 40px;
+            text-align: center;
+        }
+        .article-hero-img {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .article-hero-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .article-hero h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            line-height: 1.2;
+            max-width: 800px;
+            margin: 0 auto 24px;
+        }
+        .article-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+        .article-meta span + span::before {
+            content: " \00b7 ";
+            margin: 0 8px;
+        }
+
+        /* Article Content */
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+        .article-content h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 48px 0 20px;
+            line-height: 1.3;
+        }
+        .article-content h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 32px 0 12px;
+        }
+        .article-content p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        .article-content ol, .article-content ul {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin: 0 0 24px 24px;
+        }
+        .article-content li {
+            margin-bottom: 12px;
+        }
+        .article-content li strong {
+            color: #fff;
+        }
+        .article-content .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+        .article-content .checklist li {
+            padding-left: 28px;
+            position: relative;
+        }
+        .article-content .checklist li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--red);
+        }
+        .article-content .article-img {
+            width: 100%;
+            border-radius: 12px;
+            margin: 32px 0;
+            overflow: hidden;
+        }
+        .article-content .article-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Services Section within Blog */
+        .blog-services { padding: 0 0 80px; }
+        .blog-services .section-title {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .service-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            padding: 36px 28px;
+            transition: all 0.3s;
+        }
+        .service-card:hover { border-color: rgba(232,133,74,0.3); transform: translateY(-4px); }
+        .service-card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: rgba(232,133,74,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .service-card-icon i { font-size: 1.4rem; color: var(--red); }
+        .service-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--red);
+            margin-bottom: 12px;
+        }
+        .service-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        @media (max-width: 968px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+            .services-grid { grid-template-columns: 1fr; }
+        }
+
+        /* FAQ */
+        .faq-section { padding: 0 0 80px; }
+        .faq-section .section-title {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .faq-list { max-width: 800px; margin: 0 auto; }
+        .faq-item {
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            background: #fff;
+            color: #111;
+            transition: all 0.3s;
+        }
+        .faq-item.active .faq-question {
+            background: #e93d3d;
+            color: #fff;
+        }
+        .faq-question i {
+            transition: transform 0.3s;
+            font-size: 0.85rem;
+        }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: #fff;
+            color: #333;
+        }
+        .faq-answer-inner {
+            padding: 20px 24px;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .faq-answer-inner ol {
+            margin: 12px 0 0 20px;
+        }
+        .faq-answer-inner li {
+            margin-bottom: 4px;
+        }
+
+        /* Footer */
+        .footer { padding: 24px 0; border-top: 1px solid var(--dark-border); }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-brand-small { display: flex; align-items: center; gap: 12px; }
+        .footer-brand-small img { height: 36px; }
+        .footer-brand-small span { font-size: 0.75rem; color: var(--text-muted); }
+        .footer-nav { display: flex; gap: 24px; }
+        .footer-nav a { font-size: 0.8rem; color: var(--text-muted); transition: color 0.3s; }
+        .footer-nav a:hover { color: var(--red); }
+        .footer-copy { width: 100%; text-align: center; font-size: 0.75rem; color: #555; margin-top: 16px; }
+
+        /* Reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 968px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .service-row { grid-template-columns: 1fr; }
+            .service-row.reverse { direction: ltr; }
+            .service-row-img { max-height: 250px; }
+        }
+        @media (max-width: 640px) {
+            .footer .container { flex-direction: column; text-align: center; }
+            .footer-nav { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo"><img src="assets/images/logo.png" alt="Saujana Project"></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#services">Services</a>
+                <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+                <a href="blog.html" class="active">Blog</a>
+            </div>
+            <div class="nav-cta"><a href="contact.html" class="btn-primary">Contact Us</a></div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="btn-primary" style="margin-top:16px;">Contact Us</a>
+    </div>
+
+    <!-- Article Hero -->
+    <section class="article-hero">
+        <div class="container">
+            <div class="article-hero-img reveal">
+                <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/8L2CvVVM5sCtqZxL9Izo/media/67a5ab9b69aecb1ef4187feb.png" alt="Brand Storytelling">
+            </div>
+            <h1 class="reveal">Brand Storytelling: Rahasia Sukses Membangun Brand yang Berkesan</h1>
+            <div class="article-meta reveal">
+                <span>February 2025</span>
+                <span>Branding</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <div class="article-content">
+        <h2 class="reveal">Apa yang dimaksud dengan Brand Storytelling?</h2>
+        <p class="reveal"><strong>Brand Storytelling</strong> adalah metode atau seni bagaimana kita menyampaikan nilai, visi, dan misi brand melalui narasi yang menarik dan emosional yang ditujukan kepada target pasar bisnis kita. Berbeda dengan iklan biasa yang hanya fokus pada penjualan, <strong>Brand Storytelling</strong> berfokus pada penceritaan yang menghubungkan audiens dengan brand secara emosional. Tujuannya adalah menciptakan pengalaman yang menginspirasi dan membekas dalam ingatan audiens.</p>
+
+        <p class="reveal">Contoh implementasi Brand Storytelling dari brand-brand ternama adalah:</p>
+        <ol class="reveal">
+            <li><strong>Nike &ndash; Just Do It:</strong> Nike menginspirasi audiens dengan cerita tentang motivasi dan pemberdayaan melalui kisah atlet yang mengatasi batasan diri.</li>
+            <li><strong>Dove &ndash; Real Beauty:</strong> Dove merayakan keindahan alami dan menantang standar kecantikan yang tidak realistis, menciptakan koneksi emosional yang kuat dengan audiens.</li>
+        </ol>
+
+        <p class="reveal">Dalam dunia pemasaran digital yang semakin kompetitif, Brand Storytelling menjadi strategi yang sangat efektif untuk membedakan brand Anda dari pesaing. Tapi, apa sebenarnya Brand Storytelling, dan bagaimana cara menggunakannya untuk memperkuat identitas brand Anda?</p>
+
+        <p class="reveal">Blog ini akan mengupas tentang kekuatan cerita dalam menciptakan koneksi emosional dengan audiens, serta bagaimana Saujana Project dapat membantu Anda merancang cerita brand yang kuat dan autentik.</p>
+
+        <h2 class="reveal">Mengapa Brand Storytelling penting untuk bisnis</h2>
+        <ol class="reveal">
+            <li><strong>Membangun Koneksi Emosional:</strong> Orang cenderung mengingat cerita lebih lama dibandingkan dengan data dan fakta. Dengan menyampaikan narasi yang menyentuh emosi, brand Anda menjadi lebih mudah diingat dan relevan di benak audiens.</li>
+            <li><strong>Membedakan Brand dari Pesaing:</strong> Di tengah persaingan pasar yang ketat, cerita yang autentik dan menarik akan membedakan brand Anda dari kompetitor.</li>
+            <li><strong>Meningkatkan Loyalitas Pelanggan:</strong> Ketika audiens merasa terhubung secara emosional dengan brand Anda, mereka akan lebih loyal dan menjadi advokat brand.</li>
+            <li><strong>Meningkatkan Engagement dan Konversi:</strong> Cerita yang menarik mampu menarik perhatian audiens lebih lama, sehingga meningkatkan peluang konversi.</li>
+        </ol>
+
+        <h2 class="reveal">Elemen penting dalam Brand Storytelling</h2>
+        <ul class="checklist reveal">
+            <li><strong>Autentisitas:</strong> Cerita yang jujur dan autentik lebih mudah dipercaya dan relevan bagi audiens.</li>
+            <li><strong>Karakter yang Relatable:</strong> Gunakan karakter yang bisa dihubungkan oleh audiens, seperti kisah pendiri brand, karyawan, atau pelanggan.</li>
+            <li><strong>Emosi yang Kuat:</strong> Cerita yang mengandung emosi seperti inspirasi, kebahagiaan, atau nostalgia lebih mudah diingat.</li>
+            <li><strong>Pesan Brand yang Jelas:</strong> Pastikan cerita Anda selaras dengan visi dan misi brand, sehingga pesan yang disampaikan konsisten.</li>
+            <li><strong>Visual dan Audio yang Memukau:</strong> Gunakan <strong>video production</strong> dan <strong>photography</strong> berkualitas tinggi untuk menciptakan pengalaman yang imersif dan berkesan.</li>
+        </ul>
+
+        <div class="reveal" style="text-align:center; margin:48px 0;">
+            <p style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Ready to craft your brand story with the right visual elements?</p>
+            <a href="contact.html" class="btn-primary">Let's Build Your Brand Story</a>
+        </div>
+
+        <h2 class="reveal">Bagaimana Saujana Project Membantu Anda dalam Brand Storytelling?</h2>
+        <ol class="reveal">
+            <li><strong>Video Production:</strong> Membuat video komersial dan brand film berkualitas tinggi yang menceritakan kisah brand Anda secara emosional dan efektif.</li>
+            <li><strong>Photography Production:</strong> Mengabadikan momen dan visual yang memukau untuk memperkuat cerita brand Anda.</li>
+            <li><strong>Design &amp; Branding:</strong> Merancang identitas visual dan strategi branding yang konsisten dengan cerita brand Anda.</li>
+            <li><strong>Digital Marketing:</strong> Memaksimalkan jangkauan cerita brand Anda melalui strategi pemasaran digital yang tepat di sosial media dan platform digital lainnya.</li>
+        </ol>
+
+        <div class="reveal" style="text-align:center; margin:48px 0 0;">
+            <p style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Let Saujana Project bring your brand story to life through video, photography, and creative strategy.</p>
+            <a href="contact.html" class="btn-primary">Get a Free Consultation</a>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section class="blog-services">
+        <div class="container">
+            <h2 class="section-title reveal">Bagaimana Saujana Project Membantu Anda dalam Brand Storytelling?</h2>
+
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-card-icon"><i class="fas fa-video"></i></div>
+                    <h3>Video Production</h3>
+                    <p>Professional commercial, corporate, promotional, explainer, documentary film, music and event documentation video production from pre to post-production.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-icon"><i class="fas fa-camera"></i></div>
+                    <h3>Photography Production</h3>
+                    <p>High-quality commercial photography for digital advertising, fashion, corporate branding, and event documentation with expert composition and lighting.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-icon"><i class="fas fa-palette"></i></div>
+                    <h3>Design &amp; Branding</h3>
+                    <p>Brand identity development including logo design, typography, color palette, packaging, motion graphics and 3D render services.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-icon"><i class="fas fa-bullhorn"></i></div>
+                    <h3>Digital Marketing</h3>
+                    <p>Website development, social media management, performance marketing, and cold email marketing to grow your online presence and drive conversions.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-icon"><i class="fas fa-film"></i></div>
+                    <h3>Video Post Production</h3>
+                    <p>Professional editing, color grading, and motion graphics to refine and finalize video content for commercial and digital marketing platforms.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-card-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3>Creative Consultancy</h3>
+                    <p>Brand strategy, content development, creative direction and digital strategy to help brands build strong visual identities and impactful campaigns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title reveal">Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item reveal">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        How long does it take to produce a video from start to finish?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">The timeline for video production can vary significantly based on the complexity of the project, however we can definitely adapt with your own deadline as well. Typically, a simple promotional video might take a few days to weeks, while more intricate projects like a full-fledged commercial, documentaries or films can take weeks to several months. It's essential to discuss your specific project's requirements with us, and we can provide a more accurate estimate based on your needs.</div>
+                    </div>
+                </div>
+                <div class="faq-item reveal">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Do I need to provide all the content, or can you help with scriptwriting and creative concepts?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">We offer comprehensive video production services, which can include scriptwriting, concept development, and creative input. If you have a clear vision, we can work with your ideas. However, if you're unsure or need assistance, our team of experienced writers and creatives can collaborate with you to develop a concept and script that aligns perfectly with your goals and message.</div>
+                    </div>
+                </div>
+                <div class="faq-item reveal">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        What factors influence the cost of video production and editing?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Several factors contribute to the overall cost of a video project. These factors include the length of the video, the complexity of the script and storyboard, the need for actors or voiceover artists, location scouting, equipment requirements, and post production elements like special effects and sound design. To get an accurate quote, it's best to reach out to us with the details of your project so that we can provide a customized estimate based on your specific needs and budget. We're committed to working with you to find solutions that meet your goals and resources.</div>
+                    </div>
+                </div>
+                <div class="faq-item reveal">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        How working with Saujana Project will look like?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Working with Saujana Project typically follows a structured yet flexible process to ensure the best creative and production outcomes. Here's what the cooperation process looks like:
+                            <ol>
+                                <li><strong>Initial Consultation &amp; Briefing:</strong> We start by understanding your needs, goals, and vision. This includes discussing project objectives, key messages, and target audience. Reviewing references and inspirations. Setting expectations on deliverables, timeline, and budget.</li>
+                                <li><strong>Concept Development &amp; Proposal:</strong> Based on the briefing, we craft a tailored creative approach, including: Creative direction &amp; concept ideation. Storyboard or mood board (for video/photography projects). Strategy outline (for branding &amp; digital marketing). Budget breakdown and project timeline.</li>
+                                <li><strong>Pre-Production &amp; Planning:</strong> Location scouting, talent casting, and set design. Scriptwriting and shot list preparation. Logistics coordination for a smooth production day.</li>
+                                <li><strong>Production &amp; Execution:</strong> On-set filming and photography with professional crew and equipment. Art direction and styling to match brand aesthetics. Ensuring high production quality with a seamless workflow.</li>
+                                <li><strong>Post-Production &amp; Editing:</strong> Video editing, color grading, motion graphics, and sound design. Photo retouching and enhancement. Review and revisions based on client feedback.</li>
+                                <li><strong>Delivery &amp; Finalization:</strong> Submission of final assets in required formats. Additional adaptations for different platforms (social media, ads, website, etc.). Ensuring client satisfaction with quality checks.</li>
+                                <li><strong>Marketing &amp; Distribution (Optional):</strong> Content strategy &amp; social media campaign management. Digital advertising &amp; lead generation. Performance tracking &amp; optimization.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand-small">
+                <img src="assets/images/logo.png" alt="Saujana Project">
+                <span>Create. Captivate. Inspire.</span>
+            </div>
+            <div class="footer-nav">
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#services">Services</a>
+                <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="footer-copy">&copy; 2020-2026 Saujana Project Creative & Production Agency.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            hamburger.classList.remove('active'); mobileMenu.classList.remove('active'); document.body.style.overflow = '';
+        }));
+
+        // FAQ toggle
+        function toggleFaq(el) {
+            const item = el.parentElement;
+            const answer = el.nextElementSibling;
+            const isActive = item.classList.contains('active');
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(i => {
+                i.classList.remove('active');
+                i.querySelector('.faq-answer').style.maxHeight = null;
+            });
+            // Open clicked if not already active
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        }
+
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => obs.observe(el));
+    </script>
+</body>
+</html>

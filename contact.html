@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Saujana Project</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-dark.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: #040610; color: #fff; line-height: 1.6; min-height: 100vh; position: relative; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 120% 80% at 80% 90%, rgba(60,140,180,0.35) 0%, transparent 60%), radial-gradient(ellipse 80% 60% at 65% 55%, rgba(200,180,220,0.12) 0%, transparent 50%), radial-gradient(ellipse 90% 70% at 70% 50%, rgba(200,120,60,0.3) 0%, transparent 50%), radial-gradient(ellipse 80% 60% at 75% 40%, rgba(120,60,150,0.25) 0%, transparent 55%), radial-gradient(ellipse 100% 80% at 30% 20%, rgba(15,10,60,0.95) 0%, transparent 60%), linear-gradient(135deg, #020510 0%, #060a30 25%, #0e1040 40%, #1a1050 55%, #4a2838 70%, #b87838 82%, #508090 95%); filter: blur(40px); z-index: -1; }
+        a { text-decoration: none; color: inherit; }
+        :root { --red: #E8854A; --red-hover: #D4703A; --dark-card: rgba(8,10,35,0.7); --dark-border: rgba(40,35,90,0.35); --text-muted: #e8ecf2; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 16px 0; background: rgba(4,6,20,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo img { height: 80px; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.8); transition: color 0.3s; }
+        .nav-links a:hover { color: #fff; }
+        .nav-cta .btn-primary { padding: 10px 24px; font-size: 0.85rem; }
+        .btn-primary { display: inline-block; background: var(--red); color: #111; padding: 14px 36px; border-radius: 6px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; transition: all 0.3s; }
+        .btn-primary:hover { background: var(--red-hover); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(232,133,74,0.3); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .hamburger span { width: 28px; height: 2px; background: #fff; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(4,6,20,0.98); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { font-size: 1.5rem; font-family: 'Inter', sans-serif; font-weight: 600; }
+
+        /* Contact Hero */
+        .contact-page { min-height: 100vh; display: flex; flex-direction: column; }
+        .contact-hero { padding: 200px 0 60px; }
+        .contact-hero-inner { max-width: 580px; margin: 0 auto; text-align: center; }
+        .contact-hero h1 { font-family: 'Inter', sans-serif; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.1; }
+        .contact-hero p { color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; margin-top: 16px; max-width: 580px; margin-left: auto; margin-right: auto; text-align: center; }
+
+        /* Contact Form */
+        .contact-form-section { flex: 1; padding: 0 0 80px; }
+        .contact-form-wrapper { max-width: 580px; margin: 0 auto; padding: 40px; background: rgba(4,6,25,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--dark-border); border-radius: 12px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+        .form-group label .req { color: var(--red); }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px 16px; background: transparent;
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
+            color: #fff; font-family: 'Inter', sans-serif; font-size: 0.9rem; transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--red); }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: #555; }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-submit { margin-top: 8px; }
+        .form-submit .btn-primary { width: 100%; padding: 14px; font-size: 1rem; }
+        .form-success { display: none; text-align: center; padding: 48px 24px; }
+        .form-success i { font-size: 3rem; color: #4caf50; margin-bottom: 16px; }
+        .form-success h3 { font-family: 'Inter', sans-serif; font-size: 1.5rem; margin-bottom: 8px; }
+        .form-success p { color: var(--text-muted); }
+
+        /* Footer */
+        .footer { padding: 24px 0; border-top: 1px solid var(--dark-border); }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-brand-small { display: flex; align-items: center; gap: 12px; }
+        .footer-brand-small img { height: 36px; }
+        .footer-brand-small span { font-size: 0.75rem; color: var(--text-muted); }
+        .footer-nav { display: flex; gap: 24px; }
+        .footer-nav a { font-size: 0.8rem; color: var(--text-muted); transition: color 0.3s; }
+        .footer-nav a:hover { color: var(--red); }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a { width: 36px; height: 36px; border: 1px solid var(--dark-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; transition: all 0.3s; color: var(--text-muted); }
+        .footer-social a:hover { background: var(--red); border-color: var(--red); color: #fff; }
+        .footer-copy { width: 100%; text-align: center; font-size: 0.75rem; color: #555; margin-top: 16px; }
+
+        @media (max-width: 968px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+        }
+        @media (max-width: 640px) {
+            .contact-form-wrapper { padding: 24px; margin: 0 16px; }
+            .footer .container { flex-direction: column; text-align: center; }
+            .footer-nav { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo"><img src="assets/images/logo.png" alt="Saujana Project"></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#services">Services</a>
+                <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="nav-cta"><a href="contact.html" class="btn-primary">Contact Us</a></div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="btn-primary" style="margin-top:16px;">Contact Us</a>
+    </div>
+
+    <div class="contact-page">
+        <!-- Hero -->
+        <section class="contact-hero">
+            <div class="container">
+                <div class="contact-hero-inner">
+                    <h1>Let's talk<br>about it more!</h1>
+                </div>
+                <p>We will try to provide the solution for you.</p>
+            </div>
+        </section>
+
+        <!-- Form -->
+        <section class="contact-form-section">
+            <div class="container">
+                <div class="contact-form-wrapper" id="formWrapper">
+                    <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="245ce7e8-23a9-4dfa-8fd1-a7886543a117">
+                        <input type="hidden" name="subject" value="New Contact Form Submission - Saujana Project">
+                        <input type="hidden" name="from_name" value="Saujana Project Website">
+                        <input type="hidden" name="redirect" value="">
+                        <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+                        <div class="form-group">
+                            <label>Your Name <span class="req">*</span></label>
+                            <input type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Company <span class="req">*</span></label>
+                            <input type="text" name="company" placeholder="Company Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email <span class="req">*</span></label>
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone" placeholder="Optional">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Website</label>
+                            <input type="text" name="website" placeholder="Optional">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Message <span class="req">*</span></label>
+                            <textarea name="message" placeholder="Tell us about your project..." required></textarea>
+                        </div>
+                        <div class="form-submit">
+                            <button type="submit" class="btn-primary">Submit</button>
+                        </div>
+                    </form>
+                    <div class="form-success" id="formSuccess">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Message Sent!</h3>
+                        <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-brand-small">
+                    <img src="assets/images/logo.png" alt="Saujana Project">
+                    <span>Create. Captivate. Inspire.</span>
+                </div>
+                <div class="footer-nav">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#services">Services</a>
+                    <a href="https://www.canva.com/design/DAHECeTqrO4/Z8f5tHFqf2x62Dku6H6GqA/view?utm_content=DAHECeTqrO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf258b1ca72" target="_blank">Portfolio</a>
+                    <a href="contact.html">Contact Us</a>
+                    <a href="blog.html">Blog</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/saujana.project" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://id.linkedin.com/company/saujana-project" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.youtube.com/@saujanaprojectid" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.facebook.com/saujana.project" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                </div>
+                <div class="footer-copy">&copy; 2020-2026 Saujana Project Creative & Production Agency.</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            hamburger.classList.remove('active'); mobileMenu.classList.remove('active'); document.body.style.overflow = '';
+        }));
+        const form = document.getElementById('contactForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = form.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            try {
+                const res = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: new FormData(form)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    form.style.display = 'none';
+                    document.getElementById('formSuccess').style.display = 'block';
+                } else {
+                    btn.textContent = 'Try Again';
+                    btn.disabled = false;
+                    alert('Something went wrong. Please try again.');
+                }
+            } catch (err) {
+                btn.textContent = 'Try Again';
+                btn.disabled = false;
+                alert('Network error. Please check your connection and try again.');
+            }
+        });
+    </script>
+</body>
+</html>
