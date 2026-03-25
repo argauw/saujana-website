@@ -494,9 +494,13 @@
             pointer-events: none;
         }
         .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 28px;
+        }
+        .services-grid .service-card {
+            width: calc(33.333% - 19px);
         }
         .service-card {
             background: var(--dark-card);
@@ -913,14 +917,14 @@
             .hamburger { display: flex; }
             .about .container { max-width: 100%; }
             .about-grid { grid-template-columns: 1fr; gap: 40px; }
-            .services-grid { grid-template-columns: 1fr 1fr; }
+            .services-grid .service-card { width: calc(50% - 14px); }
             .portfolio-grid { grid-template-columns: 1fr 1fr; }
             .portfolio-item:nth-child(1) { grid-column: span 2; }
             .testimonials-grid { grid-template-columns: 1fr; }
             .footer-top { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 640px) {
-            .services-grid { grid-template-columns: 1fr; }
+            .services-grid .service-card { width: 100%; }
             .portfolio-grid { grid-template-columns: 1fr; }
             .portfolio-item:nth-child(1) { grid-column: span 1; }
             .stats-grid { grid-template-columns: 1fr; gap: 32px; }
